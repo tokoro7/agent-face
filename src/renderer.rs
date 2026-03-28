@@ -58,12 +58,7 @@ impl Renderer {
         let mut stdout = io::stdout();
         execute!(stdout, terminal::EnterAlternateScreen, cursor::Hide)?;
 
-        // If state file already has a state, load it.
-        if let Some(watcher) = &self.watcher {
-            if let Some(state) = watcher.read_current() {
-                self.state_machine.set(state);
-            }
-        }
+        // Always start from idle, ignoring any stale state file content.
 
         loop {
             match self.tick()? {
