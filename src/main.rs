@@ -1,6 +1,7 @@
 mod character;
 mod cli;
 mod renderer;
+mod setup;
 mod state;
 mod watcher;
 
@@ -100,6 +101,16 @@ fn main() {
     match cli.command {
         Some(Command::Set { state }) => {
             if let Err(e) = cmd_set(&state, &state_file) {
+                eprintln!("error: {e}");
+                std::process::exit(1);
+            }
+        }
+        Some(Command::Setup { agent }) => {
+            let result = match agent.as_str() {
+                "claude-code" => setup::setup_claude_code(),
+                other => Err(format!("unknown agent: {other}\nsupported agents: claude-code")),
+            };
+            if let Err(e) = result {
                 eprintln!("error: {e}");
                 std::process::exit(1);
             }

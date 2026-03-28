@@ -27,4 +27,9 @@ pub enum Command {
         /// State name (idle, thinking, writing, error, success, listening)
         state: String,
     },
+    /// Set up agent integration (e.g. agent-face setup claude-code)
+    Setup {
+        /// Agent name to configure
+        agent: String,
+    },
 }
