@@ -9,3 +9,9 @@ Rust toolchain が必要です。[rustup](https://rustup.rs/) でインストー
 ```sh
 cargo install --git https://github.com/tokoro7/agent-face
 ```
+
+## How to Uninstall
+
+```sh
+cargo uninstall agent-face
+```
