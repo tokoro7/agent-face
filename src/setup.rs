@@ -148,6 +148,13 @@ pub fn setup_claude_code() -> Result<(), String> {
 
     println!("  Updated  {}", settings_path.display());
     println!();
+    // 3. Update config flag.
+    let mut config = crate::config::load();
+    config.claude_code_setup = true;
+    crate::config::save(&config)?;
+
+    println!("  Updated  {}", crate::config::config_path().display());
+    println!();
     println!("Setup complete! agent-face will now respond to Claude Code events.");
 
     Ok(())

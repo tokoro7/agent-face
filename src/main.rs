@@ -1,5 +1,6 @@
 mod character;
 mod cli;
+mod config;
 mod renderer;
 mod setup;
 mod state;
@@ -116,6 +117,13 @@ fn main() {
             }
         }
         None => {
+            if !config::load().claude_code_setup {
+                eprintln!("agent-face is not set up yet. Run the following command first:");
+                eprintln!();
+                eprintln!("  agent-face setup claude-code");
+                std::process::exit(1);
+            }
+
             // Set up panic hook to restore terminal.
             let original_hook = std::panic::take_hook();
             std::panic::set_hook(Box::new(move |info| {
