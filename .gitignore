@@ -9,3 +9,8 @@
 .vscode/
 *.swp
 /_ref
+
+
+# Added by cargo
+
+/target
