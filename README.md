@@ -2,6 +2,8 @@
 
 AI agent に顔（立ち絵）を与えるツール。
 
+![agent-face writing state](docs/images/agent-face_readme_image_writing.png)
+
 ## How to Install
 
 Rust toolchain が必要です。[rustup](https://rustup.rs/) でインストールできます。
