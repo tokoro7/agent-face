@@ -108,8 +108,9 @@ agent-face [OPTIONS] [COMMAND]
 
 | コマンド | 説明 |
 |---|---|
-| `agent-face` | (サブコマンドなし) レンダラーを起動する |
+| `agent-face` | (サブコマンドなし) レンダラーを起動する（セットアップ未実行時はエラーメッセージを表示） |
 | `agent-face set <STATE>` | state file に状態を書き込む（エージェント統合用） |
+| `agent-face setup <AGENT>` | エージェント連携をセットアップする（例: `claude-code`） |
 
 ### オプション
 
@@ -304,8 +305,11 @@ agent-face バイナリ本体はアダプターを一切知らない。
 `~/.config/agent-face/config.toml` から設定を読み込む。ファイルが存在しない場合はデフォルト値を使用する。
 
 ```toml
-# デフォルトキャラクター名
-default_character = "cat"
+# Claude Code セットアップ済みフラグ（agent-face setup claude-code で自動設定）
+claude_code_setup = false
+
+# デフォルトキャラクター名（将来実装）
+# default_character = "cat"
 
 # state file のパス（省略時はデフォルトパス）
 # state_file = "/custom/path/to/state"
@@ -313,6 +317,8 @@ default_character = "cat"
 # キャラクター TOML の追加検索ディレクトリ
 # characters_dir = "~/.config/agent-face/characters/"
 ```
+
+`claude_code_setup` が `false`（またはファイルが存在しない）場合、サブコマンドなしでの起動時にセットアップを促すメッセージを表示して終了する。
 
 ---
 

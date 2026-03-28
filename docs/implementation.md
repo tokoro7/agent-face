@@ -10,6 +10,7 @@ agent-face/
 ├── src/
 │   ├── main.rs               # エントリポイント、コマンドディスパッチ
 │   ├── cli.rs                # clap によるCLI定義
+│   ├── config.rs             # config.toml の読み書き
 │   ├── state.rs              # FaceState enum、StateMachine
 │   ├── character.rs          # キャラクター TOML のロード・バリデーション
 │   ├── watcher.rs            # notify による state file 監視
@@ -70,12 +71,24 @@ agent-face/
 - `~/.claude/settings.json` の `hooks` に 9 イベントを**追記**（既存設定を保持）
 - 同じフックが登録済みならスキップ（重複防止）
 - フックスクリプトは `agent-face set <state>` を呼び出す（Python 非依存）
+- `~/.config/agent-face/config.toml` に `claude_code_setup = true` を記録
 
 ### State File 書き込み (`main.rs` 内 `cmd_set`)
 
 - アトミック書き込み（temp file + rename）
 - 親ディレクトリの自動作成
 - 不正な state 名はエラー（exit code 1）
+
+### Config (`config.rs`)
+
+- `~/.config/agent-face/config.toml` の読み書き
+- `claude_code_setup` フラグでセットアップ済みかを管理
+- 設定ファイルが存在しない場合はデフォルト値（全フラグ `false`）を返す
+
+### セットアップチェック (`main.rs`)
+
+- サブコマンドなしで起動時、`claude_code_setup` が `false` ならセットアップを促すメッセージを表示して終了
+- レンダラー（顔文字）は表示しない
 
 ### パニック時のターミナル復元 (`main.rs`)
 
@@ -84,7 +97,7 @@ agent-face/
 ## 未実装
 
 - `agent-face setup` 以外のエージェント対応（codex 等）
-- config ファイル (`~/.config/agent-face/config.toml`) の読み込み
+- config ファイルの CLI オプション連携（`default_character` 等）
 - 自動起動モード（`auto_launch` 設定）
 - カラーリング（文字種別ごとの着色。現状は状態カラー単色）
 - パーティクルアニメーション（泡、星）
