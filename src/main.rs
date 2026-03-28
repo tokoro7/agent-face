@@ -6,7 +6,7 @@ mod watcher;
 
 use clap::Parser;
 use std::fs;
-use std::io::{self, Write};
+use std::io;
 use std::path::PathBuf;
 
 use character::Character;
