@@ -1,67 +1,72 @@
 # agent-face
 
-AI coding agent の動作状態に連動して表情が変わる、ターミナル向け ASCII アニメーションツール。
+> Give your AI coding agent a face — ASCII art expressions that react to what it's doing, right in your terminal.
 
 ![agent-face writing state](docs/images/agent-face_readme_image_writing.png)
 
 ## Features
 
-- エージェントの状態（思考中、書き込み中、エラー等）に応じて表情がリアルタイムに変化
-- TOML ファイルでキャラクターを自由に定義可能
-- エージェント非依存の設計（現在は Claude Code に対応）
+- **Live expressions** — the face reacts in real time as the agent thinks, writes, encounters errors, and more
+- **Custom characters** — define your own characters with TOML configuration files
+- **Agent-agnostic** — pluggable adapter architecture (currently supports [Claude Code](https://docs.anthropic.com/en/docs/claude-code))
 
-## How to Install
+## Installation
 
-Rust toolchain が必要です。[rustup](https://rustup.rs/) でインストールできます。
+Requires the Rust toolchain. Install it via [rustup](https://rustup.rs/) if you haven't already.
 
 ```sh
 cargo install --git https://github.com/tokoro7/agent-face
 ```
 
-## Setup
+## Getting Started
 
-インストール後、エージェントとの連携をセットアップします。
-
-### Claude Code
+### 1. Set up the agent integration
 
 ```sh
+# For Claude Code
 agent-face setup claude-code
 ```
 
-これにより以下が行われます:
+This registers hook scripts so that agent events automatically update the face state:
 
-- `~/.config/agent-face/adapters/claude-code/face-state.sh` にフックスクリプトを配置
-- `~/.claude/settings.json` にフック設定を追記
+- `~/.config/agent-face/adapters/claude-code/face-state.sh` — hook script
+- `~/.claude/settings.json` — hook configuration entry
 
-## Usage
+### 2. Launch
 
-別のターミナルで agent-face を起動しておき、もう一方のターミナルで Claude Code を使います。
+Open two terminals side by side — one for agent-face, one for your agent.
 
 ```sh
 agent-face
 ```
 
-### Keyboard Controls
+That's it. The face will start reacting as soon as the agent begins working.
+
+## Keyboard Controls
 
 | Key | Action |
 |-----|--------|
-| `1`-`6` | 状態を手動切り替え (idle/thinking/writing/error/success/listening) |
-| `c` | キャラクター切り替え |
-| `q` | 終了 |
+| `1`–`6` | Manually switch state (see table below) |
+| `c` | Cycle through characters |
+| `q` | Quit |
 
-### States
+## States
 
-| State | Description |
-|-------|-------------|
-| `idle` | 待機中 |
-| `thinking` | 思考中 |
-| `writing` | 書き込み中 |
-| `error` | エラー発生 |
-| `success` | タスク完了 |
-| `listening` | ユーザー入力待ち |
+| State | Trigger |
+|-------|---------|
+| `idle` | Agent is inactive |
+| `thinking` | Agent is processing |
+| `writing` | Agent is editing files |
+| `error` | An error occurred |
+| `success` | Task completed |
+| `listening` | Waiting for user input |
 
-## How to Uninstall
+## Uninstall
 
 ```sh
 cargo uninstall agent-face
 ```
+
+## License
+
+MIT
